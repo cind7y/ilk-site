@@ -3,40 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cindy Phone | Premium Teknoloji</title>
+    <title>Cindy Downloader - Yılbaşı Özel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="snowCanvas"></canvas>
+    <div class="snow-overlay"></div>
 
-   <div id="welcome-screen" onclick="siteyiAc()">
-    <div class="welcome-content">
-        <h1>Cindy Phone</h1>
-        <p>Teknolojinin Yeni Adresi<br>Giriş için dokunun</p>
-    </div>
-</div>
+    <div class="container">
+        <div class="card">
+            <p class="status">SİSTEM ÇALIŞIYOR 🟢</p>
+            <h1>Cindy Downloader</h1>
+            <p class="subtitle">TikTok videolarını HD ve hızlıca indir.</p>
 
-    <div id="main-content" class="hidden">
-        <header>
-            <div class="header-container">
-                <h1>Cindy Phone Mağazası</h1>
-                <input type="text" id="aramaKutusu" onkeyup="aramaYap()" placeholder="Aramak istediğiniz modeli yazın...">
+            <div class="tabs">
+                <button class="tab-btn active" id="btn-tiktok" onclick="setMode('tiktok', this)">
+                    TikTok 🎥
+                </button>
+                
+                <button class="tab-btn disabled-mode" id="btn-instagram" onclick="setMode('instagram', this)" title="Şu an hizmet dışı">
+                    Instagram (Bakımda 🛠️)
+                </button>
             </div>
-        </header>
 
-        <main class="container">
-            <div id="telefon-listesi" class="products-grid"></div>
-            
-            <section class="reviews">
-                <h2>Cindy Phone Müşteri Deneyimleri</h2>
-                <div class="review-card">
-                    <p>"Cindy Phone'dan aldığım iPhone 16 Pro çok hızlı ulaştı. İlginiz için teşekkürler!" - <b>Mert A.</b></p>
-                </div>
-                <div class="review-card">
-                    <p>"Güvenilir mağaza, orijinal ürünler. Kesinlikle tavsiye ederim." - <b>Derya S.</b></p>
-                </div>
-            </section>
-        </main>
+            <div class="input-group">
+                <input type="text" id="videoUrl" placeholder="TikTok video linkini buraya yapıştır...">
+                <button class="action-btn" onclick="startProcess()">Videoyu Bul</button>
+            </div>
+
+            <div id="result" class="result-area hidden">
+                <div id="loader" class="loader"></div>
+                <div id="videoPreviewContainer"></div>
+                <p id="processText">Cindy AI hazırlanıyor...</p>
+                <button id="dlBtn" class="download-btn hidden">VİDEOYU İNDİR (HD)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-trigger" onclick="toggleAi()">🤖</div>
+    <div id="aiPanel" class="ai-panel hidden">
+        <p>Selam! Ben Cindy. ❄️ Şu an TikTok videolarını senin için jet hızıyla çekebilirim. Instagram motorum kısa süreliğine bakımda!</p>
     </div>
 
     <script src="script.js"></script>
