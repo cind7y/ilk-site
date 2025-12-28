@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mayın Tarlası</title>
-
-  <!-- CSS BURADA -->
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cindy Phone | Premium Teknoloji</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="snowCanvas"></canvas>
 
-<h1>💣 Mayın Tarlası</h1>
-
-<p>
-  Seviye: <span id="seviye">1</span> |
-  Puan: <span id="puan">0</span> |
-  Rekor: <span id="rekor">0</span>
-</p>
-
-<div class="controls">
-  <button onclick="temaDegistir()">🎨 Tema</button>
-  <button onclick="tamEkran()">📱 Tam Ekran</button>
-  <button onclick="yenidenBasla()">🔄 Yeniden Başla</button>
+   <div id="welcome-screen" onclick="siteyiAc()">
+    <div class="welcome-content">
+        <h1>Cindy Phone</h1>
+        <p>Teknolojinin Yeni Adresi<br>Giriş için dokunun</p>
+    </div>
 </div>
 
-<div id="alan"></div>
+    <div id="main-content" class="hidden">
+        <header>
+            <div class="header-container">
+                <h1>Cindy Phone Mağazası</h1>
+                <input type="text" id="aramaKutusu" onkeyup="aramaYap()" placeholder="Aramak istediğiniz modeli yazın...">
+            </div>
+        </header>
 
-<!-- Ses -->
-<audio id="boom" src="https://assets.mixkit.co/sfx/preview/mixkit-explosion-hit-1704.mp3"></audio>
+        <main class="container">
+            <div id="telefon-listesi" class="products-grid"></div>
+            
+            <section class="reviews">
+                <h2>Cindy Phone Müşteri Deneyimleri</h2>
+                <div class="review-card">
+                    <p>"Cindy Phone'dan aldığım iPhone 16 Pro çok hızlı ulaştı. İlginiz için teşekkürler!" - <b>Mert A.</b></p>
+                </div>
+                <div class="review-card">
+                    <p>"Güvenilir mağaza, orijinal ürünler. Kesinlikle tavsiye ederim." - <b>Derya S.</b></p>
+                </div>
+            </section>
+        </main>
+    </div>
 
-<!-- JS EN ALTTA -->
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
