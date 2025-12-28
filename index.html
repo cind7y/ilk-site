@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mayın Tarlası</title>
+
+  <!-- CSS BURADA -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="kart">
-    <img src="https://via.placeholder.com/150" alt="profil">
-    <h1 id="yazi">Merhaba!</h1>
-    <p>Adını yaz ve butona bas 👇</p>
+<h1>💣 Mayın Tarlası</h1>
 
-    <input type="text" id="isimInput" placeholder="Adın">
-    <br><br>
+<p>
+  Seviye: <span id="seviye">1</span> |
+  Puan: <span id="puan">0</span> |
+  Rekor: <span id="rekor">0</span>
+</p>
 
-    <button onclick="degistir()">Göster</button>
+<div class="controls">
+  <button onclick="temaDegistir()">🎨 Tema</button>
+  <button onclick="tamEkran()">📱 Tam Ekran</button>
+  <button onclick="yenidenBasla()">🔄 Yeniden Başla</button>
 </div>
 
-<script src="script.js"></script>
+<div id="alan"></div>
 
+<!-- Ses -->
+<audio id="boom" src="https://assets.mixkit.co/sfx/preview/mixkit-explosion-hit-1704.mp3"></audio>
+
+<!-- JS EN ALTTA -->
+<script src="script.js"></script>
 
 </body>
 </html>
