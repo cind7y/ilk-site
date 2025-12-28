@@ -1,100 +1,121 @@
-// 1. SENİN TELEFON VERİLERİN
-const telefonlar = [
-    { 
-        ad: "iPhone 13", 
-        fiyat: "29.000 TL", 
-        resim: "https://image5.sahibinden.com/marketplaceTemplate/13/51/64/big_apple-iphone-13-beyaz-3.jpg" 
-    },
-    { 
-        ad: "iPhone 16 Pro", 
-        fiyat: "56.999 TL", 
-        resim: "https://cdn.dsmcdn.com/mnresize/420/620/ty1608/prod/QC/20241202/10/6bf6977f-2792-31a8-bcf8-07499d9284dc/1_org_zoom.jpg" 
-    },
-    { 
-        ad: "iPhone 11", 
-        fiyat: "17.850 TL", 
-        resim: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone11-white-select-2019?wid=940&hei=1112&fmt=p-jpg&qlt=80&.v=1567021770073" 
-    },
-    { 
-        ad: "Samsung S24 Ultra", 
-        fiyat: "57.000 TL", 
-        resim: "https://cdn.dsmcdn.com/ty1117/product/media/images/prod/PIM/20240103/11/12d1689d-de8c-4452-a537-ca4a811de0fe/1_org_zoom.jpg" 
+/**
+ * CINDY DOWNLOADER - V18 "Snowy Update"
+ * Sadece TikTok Aktif - Instagram Bakım Modunda
+ */
+
+let currentMode = 'tiktok'; // Varsayılan mod TikTok
+
+/**
+ * Mod Değiştirme Fonksiyonu
+ * Instagram seçilirse engel koyar.
+ */
+function setMode(mode, btn) {
+    if (mode === 'instagram') {
+        // Kullanıcıya şık bir uyarı ver
+        const statusText = document.getElementById('processText');
+        const resArea = document.getElementById('result');
+        
+        resArea.classList.remove('hidden');
+        statusText.style.color = "#ff4d4d";
+        statusText.innerText = "Cindy: Instagram motoru şu an yılbaşı bakımında! Lütfen TikTok kullanın. 🛠️";
+        
+        // Robot panelini de güncelle
+        document.getElementById('aiPanel').innerHTML = "<p>Üzgünüm! 🤖 Instagram şu an çalışmıyor, ama TikTok jet gibi!</p>";
+        return;
     }
-];
 
-// --- DİĞER FONKSİYONLAR (Kar Yağışı ve Site Açılışı) ---
-
-// Kar yağışı için canvas ayarları
-const canvas = document.getElementById('snowCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-
-function createSnow() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    for (let i = 0; i < 100; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 4 + 1,
-            d: Math.random() * 1
-        });
-    }
+    currentMode = mode;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    console.log("Cindy Mod Değişti:", currentMode);
 }
 
-function drawSnow() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    for (let p of particles) {
-        ctx.moveTo(p.x, p.y);
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-    }
-    ctx.fill();
-    updateSnow();
+/**
+ * AI Panel Kontrolü
+ */
+function toggleAi() {
+    const panel = document.getElementById('aiPanel');
+    panel.classList.toggle('hidden');
 }
 
-function updateSnow() {
-    for (let p of particles) {
-        p.y += Math.cos(p.d) + 1 + p.r / 2;
-        if (p.y > canvas.height) {
-            p.y = -10;
-            p.x = Math.random() * canvas.width;
+/**
+ * ANA MOTOR - TIKTOK İNDİRME SİSTEMİ
+ */
+async function startProcess() {
+    const urlInput = document.getElementById('videoUrl');
+    const url = urlInput.value.trim();
+    const resArea = document.getElementById('result');
+    const loader = document.getElementById('loader');
+    const statusText = document.getElementById('processText');
+    const downloadBtn = document.getElementById('dlBtn');
+
+    // Boş link kontrolü
+    if (!url) {
+        alert("Lütfen bir TikTok linki yapıştırın! ✨");
+        return;
+    }
+
+    // Arayüzü Hazırla
+    resArea.classList.remove('hidden');
+    downloadBtn.classList.add('hidden');
+    loader.classList.remove('hidden');
+    statusText.style.color = "#00e5ff";
+    statusText.innerText = "Cindy AI: TikTok videosu analiz ediliyor... ❄️";
+
+    try {
+        // TIKTOK MOTORU (Yedekli ve Stabil API)
+        const response = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
+        const result = await response.json();
+
+        if (result.code === 0 && result.data.play) {
+            const videoUrl = result.data.play;
+            const authorName = result.data.author.unique_id || "TikTok_Video";
+
+            // Başarı Durumu
+            loader.classList.add('hidden');
+            statusText.innerHTML = `
+                <div style="margin-top:10px; border:1px solid #00e5ff; padding:10px; border-radius:15px; background:rgba(0,0,0,0.4);">
+                    <p style="margin-bottom:10px;">✅ Video Hazır!</p>
+                    <video width="100%" controls style="border-radius:10px;">
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>
+                </div>
+            `;
+
+            downloadBtn.classList.remove('hidden');
+            downloadBtn.innerText = "HEMEN İNDİR (HD)";
+
+            // İndirme İşlemi (Blob Yöntemi ile Sitede Kalma)
+            downloadBtn.onclick = async () => {
+                downloadBtn.innerText = "İndiriliyor...";
+                try {
+                    const videoFetch = await fetch(videoUrl);
+                    const blob = await videoFetch.blob();
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    
+                    const link = document.createElement('a');
+                    link.href = blobUrl;
+                    link.download = `Cindy_${authorName}.mp4`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    downloadBtn.innerText = "TAMAMLANDI ✅";
+                    setTimeout(() => { downloadBtn.innerText = "YENİDEN İNDİR"; }, 3000);
+                } catch (err) {
+                    // Blob engellenirse doğrudan aç
+                    window.open(videoUrl, '_blank');
+                }
+            };
+
+        } else {
+            throw new Error("Video bulunamadı");
         }
+
+    } catch (error) {
+        console.error("Sistem Hatası:", error);
+        loader.classList.add('hidden');
+        statusText.style.color = "#ff4d4d";
+        statusText.innerText = "Hata: TikTok linki hatalı veya video gizli olabilir! ❌";
     }
 }
-
-function siteyiAc() {
-    document.getElementById("welcome-screen").style.display = "none";
-    document.getElementById("main-content").classList.remove("hidden");
-    telefonlariGoster(telefonlar);
-    setInterval(drawSnow, 30);
-}
-
-function telefonlariGoster(liste) {
-    const konteyner = document.getElementById("telefon-listesi");
-    konteyner.innerHTML = "";
-    liste.forEach(tel => {
-        konteyner.innerHTML += `
-            <div class="card">
-                <img src="${tel.resim}" alt="${tel.ad}">
-                <h3>${tel.ad}</h3>
-                <p class="price">${tel.fiyat}</p>
-                <button onclick="siparisVer('${tel.ad}')">Satın Al</button>
-            </div>
-        `;
-    });
-}
-
-function aramaYap() {
-    let kelime = document.getElementById("aramaKutusu").value.toLowerCase();
-    let sonuc = telefonlar.filter(tel => tel.ad.toLowerCase().includes(kelime));
-    telefonlariGoster(sonuc);
-}
-
-function siparisVer(ad) {
-    let mesaj = "Merhaba, " + ad + " almak istiyorum. Stokta var mı?";
-    window.location.href = "https://wa.me/905000000000?text=" + encodeURIComponent(mesaj);
-}
-
-createSnow();
