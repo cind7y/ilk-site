@@ -1,72 +1,74 @@
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: white;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
+body { 
+    margin: 0; 
+    background-color: #050a18; 
+    font-family: 'Poppins', sans-serif; 
+    color: white;
+    overflow-x: hidden;
 }
 
-body.neon {
-  background: radial-gradient(circle at top, #00ffd5, #0b1a2a 45%, #05070d);
+/* Kar Kanvası */
+#snowCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* İçeriğin arkasında kalsın */
+    pointer-events: none;
 }
 
-h1 { margin-bottom: 5px; }
+.hidden { display: none !important; }
 
-.controls {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+/* Giriş Ekranı */
+#welcome-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 10, 24, 0.9);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000; cursor: pointer; text-align: center;
 }
 
-#alan {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  width: 100%;
-  max-width: 340px;
-  margin: 10px 0;
+/* Kartlar ve Izgara */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px; padding: 40px;
 }
 
-.kutu {
-  aspect-ratio: 1 / 1;
-  font-size: 22px;
-  border: none;
-  border-radius: 10px;
-  background: #444;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.1s, background 0.3s;
+.card {
+    background: rgba(255, 255, 255, 0.05); /* Şeffaf cam efekti */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    transition: 0.3s;
+    text-align: center;
 }
 
-.neon .kutu {
-  background: #0b1a2a;
-  box-shadow: 0 0 8px rgba(0,255,213,.6);
+.card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 183, 255, 0.2);
 }
 
-.kutu:active { transform: scale(0.95); }
+.card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; }
 
-.guvenli { background: #2ecc71; color: #0b1a2a; }
-.mayin { background: red; animation: patla 0.4s; }
-
-@keyframes patla {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
+.price { color: #00d4ff; font-size: 22px; font-weight: bold; margin: 10px 0; }
 
 button {
-  padding: 8px 14px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+    background: linear-gradient(90deg, #00d4ff, #0072ff);
+    color: white; border: none; padding: 12px;
+    width: 100%; border-radius: 12px; cursor: pointer; font-weight: bold;
+}
+
+#aramaKutusu {
+    width: 100%; max-width: 500px; padding: 15px;
+    border-radius: 30px; border: none; background: rgba(255,255,255,0.1);
+    color: white; outline: none; margin-top: 20px;
+}/* Mevcut CSS'inin sonuna ekleyebilirsin veya img kısmını güncelleyebilirsin */
+.card img { 
+    width: 100%; 
+    height: 220px; 
+    object-fit: contain; 
+    margin-bottom: 15px;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); /* Fotoğraflara derinlik katar */
 }
